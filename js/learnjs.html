@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript DOM Tutorial</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            margin-top: 20px;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+
+        h2 {
+            color: #3498db;
+            margin: 30px 0 15px 0;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 5px;
+        }
+
+        h3 {
+            color: #e74c3c;
+            margin: 20px 0 10px 0;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #3498db;
+        }
+
+        .demo-area {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            border: 2px dashed #ddd;
+        }
+
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #2980b9;
+        }
+
+        .highlight {
+            background: yellow !important;
+            transition: background 0.3s;
+        }
+
+        .styled-element {
+            background: #e74c3c;
+            color: white;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+
+        input, select {
+            padding: 8px;
+            margin: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #dynamicList li {
+            padding: 5px;
+            margin: 5px 0;
+            background: #ecf0f1;
+            border-radius: 3px;
+        }
+
+        .output {
+            background: #2ecc71;
+            color: white;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 JavaScript DOM Mastery</h1>
+
+        <!-- Section 1: What is DOM -->
+        <div class="section">
+            <h2>1. What is the DOM?</h2>
+            <p>The <strong>Document Object Model (DOM)</strong> is a programming interface that represents HTML documents as a tree of objects. JavaScript can manipulate these objects to change content, structure, and styling dynamically.</p>
+            
+            <div class="demo-area">
+                <h3>DOM Tree Example:</h3>
+                <div id="domExample">
+                    <p>This is a paragraph</p>
+                    <div>
+                        <span>This is a span inside a div</span>
+                    </div>
+                </div>
+                <button onclick="showDOMStructure()">Show DOM Structure</button>
+                <div id="domOutput" class="output hidden"></div>
+            </div>
+        </div>
+
+        <!-- Section 2: Selecting Elements -->
+        <div class="section">
+            <h2>2. Selecting Elements</h2>
+            <div class="code-block">
+// Methods to select elements:
+document.getElementById('id')           // Select by ID
+document.getElementsByClassName('class') // Select by class name
+document.getElementsByTagName('tag')    // Select by tag name
+document.querySelector('selector')      // Select first match (CSS selector)
+document.querySelectorAll('selector')   // Select all matches
+            </div>
+
+            <div class="demo-area">
+                <h3>Try It:</h3>
+                <div id="uniqueElement" class="demo-item">Element with ID</div>
+                <div class="demo-item">First element with class</div>
+                <div class="demo-item">Second element with class</div>
+                <p class="demo-item">Paragraph element</p>
+                
+                <button onclick="selectById()">Select by ID</button>
+                <button onclick="selectByClass()">Select by Class</button>
+                <button onclick="selectByTag()">Select by Tag</button>
+                <button onclick="selectByQuery()">Select with querySelector</button>
+                <button onclick="clearHighlights()">Clear Highlights</button>
+            </div>
+        </div>
+
+        <!-- Section 3: Changing Content -->
+        <div class="section">
+            <h2>3. Changing Content</h2>
+            <div class="code-block">
+element.innerHTML = 'new HTML content'   // Change HTML content
+element.textContent = 'new text'         // Change text content
+element.innerText = 'new text'           // Change visible text
+            </div>
+
+            <div class="demo-area">
+                <h3>Content Manipulation:</h3>
+                <div id="contentDemo">Original content here</div>
+                <button onclick="changeHTML()">Change HTML</button>
+                <button onclick="changeText()">Change Text</button>
+                <button onclick="resetContent()">Reset</button>
+            </div>
+        </div>
+
+        <!-- Section 4: Changing Attributes -->
+        <div class="section">
+            <h2>4. Working with Attributes</h2>
+            <div class="code-block">
+element.getAttribute('attribute')        // Get attribute value
+element.setAttribute('attr', 'value')   // Set attribute
+element.removeAttribute('attribute')     // Remove attribute
+element.hasAttribute('attribute')        // Check if attribute exists
+            </div>
+
+            <div class="demo-area">
+                <h3>Attribute Manipulation:</h3>
+                <img id="demoImage" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iIzNBOThEQiIvPjx0ZXh0IHg9IjUwIiB5PSI1NSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0IiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+SW1hZ2UgMTwvdGV4dD48L3N2Zz4=" alt="Demo Image 1" style="margin: 10px;">
+                <br>
+                <button onclick="changeImageSrc()">Change Image</button>
+                <button onclick="changeImageAlt()">Change Alt Text</button>
+                <button onclick="toggleImageBorder()">Toggle Border</button>
+            </div>
+        </div>
+
+        <!-- Section 5: Styling Elements -->
+        <div class="section">
+            <h2>5. Styling Elements</h2>
+            <div class="code-block">
+element.style.property = 'value'        // Direct style changes
+element.className = 'newClass'          // Change class name
+element.classList.add('class')          // Add class
+element.classList.remove('class')       // Remove class
+element.classList.toggle('class')       // Toggle class
+            </div>
+
+            <div class="demo-area">
+                <h3>Style Manipulation:</h3>
+                <div id="styleDemo">Style me!</div>
+                <button onclick="changeDirectStyle()">Direct Style</button>
+                <button onclick="addClass()">Add Class</button>
+                <button onclick="toggleClass()">Toggle Class</button>
+                <button onclick="resetStyles()">Reset</button>
+            </div>
+        </div>
+
+        <!-- Section 6: Creating and Removing Elements -->
+        <div class="section">
+            <h2>6. Creating and Removing Elements</h2>
+            <div class="code-block">
+document.createElement('tagName')        // Create element
+parent.appendChild(element)             // Add element as last child
+parent.insertBefore(new, existing)     // Insert before existing element
+parent.removeChild(element)             // Remove element
+element.remove()                        // Remove element (modern way)
+            </div>
+
+            <div class="demo-area">
+                <h3>Dynamic Elements:</h3>
+                <ul id="dynamicList">
+                    <li>Existing item 1</li>
+                    <li>Existing item 2</li>
+                </ul>
+                <input type="text" id="newItemText" placeholder="Enter new item">
+                <button onclick="addItem()">Add Item</button>
+                <button onclick="removeLastItem()">Remove Last</button>
+                <button onclick="clearAllItems()">Clear All</button>
+            </div>
+        </div>
+
+        <!-- Section 7: Event Handling -->
+        <div class="section">
+            <h2>7. Event Handling</h2>
+            <div class="code-block">
+element.addEventListener('event', function)  // Add event listener
+element.removeEventListener('event', func)  // Remove event listener
+element.onclick = function() {}              // Direct event assignment
+
+// Common events: click, mouseover, mouseout, keydown, keyup, change, submit
+            </div>
+
+            <div class="demo-area">
+                <h3>Interactive Events:</h3>
+                <button id="clickCounter">Click me! (0)</button>
+                <div id="hoverArea" style="background: #ecf0f1; padding: 20px; margin: 10px 0;">
+                    Hover over me!
+                </div>
+                <input type="text" id="keyInput" placeholder="Type here to see key events">
+                <div id="eventOutput" class="output hidden"></div>
+            </div>
+        </div>
+
+        <!-- Section 8: Form Handling -->
+        <div class="section">
+            <h2>8. Form Handling</h2>
+            <div class="code-block">
+input.value                    // Get/set input value
+form.submit()                  // Submit form programmatically
+event.preventDefault()         // Prevent default form submission
+            </div>
+
+            <div class="demo-area">
+                <h3>Form Interaction:</h3>
+                <form id="demoForm">
+                    <input type="text" id="nameInput" placeholder="Your name" required>
+                    <select id="colorSelect">
+                        <option value="red">Red</option>
+                        <option value="blue">Blue</option>
+                        <option value="green">Green</option>
+                    </select>
+                    <button type="submit">Submit</button>
+                </form>
+                <div id="formOutput" class="output hidden"></div>
+            </div>
+        </div>
+
+        <!-- Section 9: Advanced Concepts -->
+        <div class="section">
+            <h2>9. Advanced Concepts</h2>
+            <div class="code-block">
+// Event delegation - handling events on parent elements
+parent.addEventListener('click', function(e) {
+    if (e.target.matches('button')) {
+        // Handle button click
+    }
+});
+
+// Working with data attributes
+element.dataset.customProperty = 'value';
+let value = element.dataset.customProperty;
+            </div>
+
+            <div class="demo-area">
+                <h3>Event Delegation Demo:</h3>
+                <div id="delegationContainer">
+                    <button data-action="alert">Alert Button</button>
+                    <button data-action="log">Log Button</button>
+                    <button data-action="toggle">Toggle Button</button>
+                </div>
+                <button onclick="addRandomButton()">Add Random Button</button>
+            </div>
+        </div>
+
+        <!-- Section 10: Practice Exercises -->
+        <div class="section">
+            <h2>10. Practice Exercises</h2>
+            <div class="demo-area">
+                <h3>Exercise 1: Todo List</h3>
+                <input type="text" id="todoInput" placeholder="Enter a todo item">
+                <button onclick="addTodo()">Add Todo</button>
+                <ul id="todoList"></ul>
+                
+                <h3>Exercise 2: Color Picker</h3>
+                <div id="colorBox" style="width: 100px; height: 100px; background: #3498db; margin: 10px 0;"></div>
+                <button onclick="randomColor()">Random Color</button>
+                <input type="color" id="colorPicker" onchange="changeBoxColor(this.value)">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Section 1: DOM Structure
+        function showDOMStructure() {
+            const output = document.getElementById('domOutput');
+            output.innerHTML = `
+                <h4>DOM Structure of the example above:</h4>
+                <pre>
+div#domExample
+├── p (This is a paragraph)
+└── div
+    └── span (This is a span inside a div)
+                </pre>
+            `;
+            output.classList.remove('hidden');
+        }
+
+        // Section 2: Element Selection
+        function selectById() {
+            clearHighlights();
+            const element = document.getElementById('uniqueElement');
+            element.classList.add('highlight');
+            console.log('Selected by ID:', element);
+        }
+
+        function selectByClass() {
+            clearHighlights();
+            const elements = document.getElementsByClassName('demo-item');
+            for (let element of elements) {
+                element.classList.add('highlight');
+            }
+            console.log('Selected by class:', elements);
+        }
+
+        function selectByTag() {
+            clearHighlights();
+            const elements = document.getElementsByTagName('p');
+            for (let element of elements) {
+                if (element.classList.contains('demo-item')) {
+                    element.classList.add('highlight');
+                }
+            }
+            console.log('Selected by tag:', elements);
+        }
+
+        function selectByQuery() {
+            clearHighlights();
+            const element = document.querySelector('.demo-item');
+            element.classList.add('highlight');
+            console.log('Selected with querySelector:', element);
+        }
+
+        function clearHighlights() {
+            const highlighted = document.querySelectorAll('.highlight');
+            highlighted.forEach(el => el.classList.remove('highlight'));
+        }
+
+        // Section 3: Content Manipulation
+        function changeHTML() {
+            const element = document.getElementById('contentDemo');
+            element.innerHTML = '<strong>New HTML content</strong> with <em>formatting</em>!';
+        }
+
+        function changeText() {
+            const element = document.getElementById('contentDemo');
+            element.textContent = 'New plain text content (no HTML)';
+        }
+
+        function resetContent() {
+            const element = document.getElementById('contentDemo');
+            element.innerHTML = 'Original content here';
+        }
+
+        // Section 4: Attribute Manipulation
+        function changeImageSrc() {
+            const img = document.getElementById('demoImage');
+            img.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iI0U3NEMzQyIvPjx0ZXh0IHg9IjUwIiB5PSI1NSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0IiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+SW1hZ2UgMjwvdGV4dD48L3N2Zz4=';
+        }
+
+        function changeImageAlt() {
+            const img = document.getElementById('demoImage');
+            img.setAttribute('alt', 'Updated alt text: ' + new Date().getTime());
+            alert('Alt text changed to: ' + img.getAttribute('alt'));
+        }
+
+        function toggleImageBorder() {
+            const img = document.getElementById('demoImage');
+            if (img.style.border) {
+                img.style.border = '';
+            } else {
+                img.style.border = '3px solid red';
+            }
+        }
+
+        // Section 5: Styling
+        function changeDirectStyle() {
+            const element = document.getElementById('styleDemo');
+            element.style.backgroundColor = '#e74c3c';
+            element.style.color = 'white';
+            element.style.padding = '15px';
+            element.style.borderRadius = '10px';
+        }
+
+        function addClass() {
+            const element = document.getElementById('styleDemo');
+            element.classList.add('styled-element');
+        }
+
+        function toggleClass() {
+            const element = document.getElementById('styleDemo');
+            element.classList.toggle('highlight');
+        }
+
+        function resetStyles() {
+            const element = document.getElementById('styleDemo');
+            element.className = '';
+            element.style.cssText = '';
+        }
+
+        // Section 6: Creating/Removing Elements
+        function addItem() {
+            const input = document.getElementById('newItemText');
+            const list = document.getElementById('dynamicList');
+            
+            if (input.value.trim() !== '') {
+                const li = document.createElement('li');
+                li.textContent = input.value;
+                list.appendChild(li);
+                input.value = '';
+            }
+        }
+
+        function removeLastItem() {
+            const list = document.getElementById('dynamicList');
+            if (list.children.length > 0) {
+                list.removeChild(list.lastElementChild);
+            }
+        }
+
+        function clearAllItems() {
+            const list = document.getElementById('dynamicList');
+            list.innerHTML = '';
+        }
+
+        // Section 7: Event Handling
+        let clickCount = 0;
+        
+        document.getElementById('clickCounter').addEventListener('click', function() {
+            clickCount++;
+            this.textContent = `Click me! (${clickCount})`;
+        });
+
+        const hoverArea = document.getElementById('hoverArea');
+        hoverArea.addEventListener('mouseover', function() {
+            this.style.backgroundColor = '#3498db';
+            this.style.color = 'white';
+            this.textContent = 'Mouse is over me!';
+        });
+
+        hoverArea.addEventListener('mouseout', function() {
+            this.style.backgroundColor = '#ecf0f1';
+            this.style.color = 'black';
+            this.textContent = 'Hover over me!';
+        });
+
+        document.getElementById('keyInput').addEventListener('keyup', function(event) {
+            const output = document.getElementById('eventOutput');
+            output.innerHTML = `Key pressed: "${event.key}" | Key code: ${event.keyCode}`;
+            output.classList.remove('hidden');
+        });
+
+        // Section 8: Form Handling
+        document.getElementById('demoForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('nameInput').value;
+            const color = document.getElementById('colorSelect').value;
+            const output = document.getElementById('formOutput');
+            
+            output.innerHTML = `Hello, ${name}! Your favorite color is ${color}.`;
+            output.classList.remove('hidden');
+        });
+
+        // Section 9: Advanced Concepts - Event Delegation
+        document.getElementById('delegationContainer').addEventListener('click', function(e) {
+            if (e.target.tagName === 'BUTTON') {
+                const action = e.target.dataset.action;
+                
+                switch(action) {
+                    case 'alert':
+                        alert('Alert button clicked!');
+                        break;
+                    case 'log':
+                        console.log('Log button clicked!');
+                        break;
+                    case 'toggle':
+                        e.target.classList.toggle('highlight');
+                        break;
+                }
+            }
+        });
+
+        function addRandomButton() {
+            const container = document.getElementById('delegationContainer');
+            const button = document.createElement('button');
+            const actions = ['alert', 'log', 'toggle'];
+            const randomAction = actions[Math.floor(Math.random() * actions.length)];
+            
+            button.textContent = `${randomAction.charAt(0).toUpperCase() + randomAction.slice(1)} Button`;
+            button.dataset.action = randomAction;
+            container.appendChild(button);
+        }
+
+        // Section 10: Practice Exercises
+        function addTodo() {
+            const input = document.getElementById('todoInput');
+            const list = document.getElementById('todoList');
+            
+            if (input.value.trim() !== '') {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <span>${input.value}</span>
+                    <button onclick="removeTodo(this)" style="margin-left: 10px; background: #e74c3c;">Delete</button>
+                `;
+                list.appendChild(li);
+                input.value = '';
+            }
+        }
+
+        function removeTodo(button) {
+            button.parentElement.remove();
+        }
+
+        function randomColor() {
+            const colors = ['#3498db', '#e74c3c', '#2ecc71', '#f39c12', '#9b59b6', '#1abc9c'];
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            document.getElementById('colorBox').style.backgroundColor = randomColor;
+        }
+
+        function changeBoxColor(color) {
+            document.getElementById('colorBox').style.backgroundColor = color;
+        }
+
+        // Initialize key input event
+        document.getElementById('keyInput').addEventListener('keydown', function(event) {
+            console.log('Key down:', event.key);
+        });
+    </script>
+</body>
+</html>
